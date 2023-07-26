@@ -3,7 +3,7 @@
 namespace application\core;
 
 use application\core\View;
-
+use application\helper\Validation;
 
 abstract class Controller {
 
@@ -11,6 +11,7 @@ abstract class Controller {
     public $view;
     public $model;
     public $acl;
+    public $validation;
 
 
     public function __construct($route)
@@ -25,6 +26,7 @@ abstract class Controller {
        $this->view = new View($route);
         // Подгружаем модели контроллеров     
        $this->model = $this->loadModel($route['controller']);
+       $this->validation = new Validation;
     } 
 
     // Автозагрузчик моделей  

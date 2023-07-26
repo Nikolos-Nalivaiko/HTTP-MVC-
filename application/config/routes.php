@@ -11,14 +11,24 @@ return [
         'action' => 'index',
     ],
 
-    // AccountController
-    'account/register' => [
-        'controller' => 'account',
-        'action' => 'register',
-    ],
     'account/login' => [
         'controller' => 'account',
         'action' => 'login',
+    ],
+
+    'account/select' => [
+        'controller' => 'account',
+        'action' => 'select',
+    ],
+
+    'account/user-create' => [
+        'controller' => 'account',
+        'action' => 'userCreate',
+    ],
+
+    'account/company-create' => [
+        'controller' => 'account',
+        'action' => 'companyCreate',
     ],
 
 ];

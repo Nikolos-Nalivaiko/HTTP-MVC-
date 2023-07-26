@@ -19,7 +19,7 @@ class Router {
             $this->add($key, $val);
         }
     }
-    
+
     /* Метод который добавляет маршрут, параметрами принимает 
     $route - маршрут
     $params - параметры 
@@ -33,7 +33,7 @@ class Router {
     // Метод проверки есть ли такой маршрут
     public function match(){
         // Получаем наш текущий УРЛ, и обрезаем лишнее
-        $url = trim($_SERVER['REQUEST_URI'], 'HTTP(MVC)/');
+        $url = substr($_SERVER['REQUEST_URI'], 15);
 
         // Перебираем массив маршрутов $routes  
         foreach($this->routes as $route => $params) {

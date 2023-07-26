@@ -3,9 +3,8 @@
 return [
     'all' => [
         'login',
-        'register'
+        'select',
+        'userCreate',
+        'company-create',
     ]
-    // 'authorize' => [
-    //     'register',
-    // ]
 ];

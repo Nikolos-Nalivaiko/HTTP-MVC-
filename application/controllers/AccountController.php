@@ -6,51 +6,55 @@ use application\core\Controller;
 
 class AccountController extends Controller {
 
+
     public function loginAction() {
-        $this->view->render('Вход');
+
+        $vars = [];
+
+        $this->view->render('Авторизація', $vars);
     }
 
-    public function registerAction() {
+    public function selectAction() {
 
-        $cities = $this->model->getCities(5);
-        $regions = $this->model->getRegions();
+        $vars = [];
+
+        $this->view->render('Тип профілю', $vars);
+    }
+
+    public function userCreateAction() {
+
+        $valid = $this->validation->validFields($_POST);
+
+        $success = null;
+
+        if(isset($_POST['submit']) and $valid == false) {
+            if($this->model->createUser($_POST)) {
+                $success = $this->view->showSuccess('Профіль успішно зареєстровано !');
+            } 
+        }
+
+        $regions = $this->model->selectRegions(); 
+
         $vars = [
-            'cities' => $cities,
-            'regions' => $regions,
+            'error' => $valid,
+            'success' => $success,
+            'regions' => $regions
         ];
 
-        if(!empty($_POST)) {
-        if(!$this->model->validSymbol(['login', 'password', 'user_name', 'user_middle_name', 'user_surname', 'pass_confirm'], $_POST)) {
-            $error = $this->model->error;
-            $vars = [
-                'error' => $error,
-            ];
-        } elseif (!$this->model->validLenght(['login', 'password'], $_POST)) {
-            $error = $this->model->error;
-            $vars = [
-                'error' => $error,
-            ];
-        } elseif (!$this->model->checkPassConfirm($_POST['password'],$_POST['pass_confirm'])) {
-            $error = $this->model->error;
-            $vars = [
-                'error' => $error,
-            ];
-        } elseif(!$this->model->checkLogin($_POST['login'])) {
-            $error = $this->model->error;
-            $vars = [
-                'error' => $error,
-            ];
-        } else {
-            $this->model->addUsers($_POST);
-            $success = $this->model->success;
-            $vars = [
-                'success' => $success,
-            ];
+        if(isset($_POST['data'])) {
+            $data = array("message" => "Це дані з AJAX-запиту!");
+            echo json_encode($data);
+            die();
         }
+
+        $this->view->render('Створення профілю', $vars);
     }
 
-        $this->view->render('Регистрация', $vars);
-    }
+    public function companyCreateAction() {
 
+        $vars = [];
+
+        $this->view->render('Створення профілю', $vars);
+    }
 
 }

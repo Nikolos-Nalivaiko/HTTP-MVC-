@@ -1,6 +1,7 @@
 <?php
 
 use application\core\Router;
+require __DIR__.'/vendor/autoload.php';
 
 /* Автозагрузка классов:
 
