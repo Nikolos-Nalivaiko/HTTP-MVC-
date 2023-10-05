@@ -43,21 +43,9 @@ class View {
     }
     
     // Функция редиректа
-    public function redirect($url) {
+    public static function redirect($url) {
         header('Location: '.$url);
         exit;
-    }
-
-    public function showSuccess($message) {
-        return "
-        <div class='success-message message'>
-            <div class='success-message__info-bar'>
-                <p class='success-message__icon __icon-check'></p>
-                <p class='success-message__text'>$message</p>
-            </div>
-            <p class='message-close __icon-close'></p>
-        </div>
-        ";
     }
 
 }

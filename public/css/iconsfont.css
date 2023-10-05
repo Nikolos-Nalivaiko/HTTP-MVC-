@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icons';
-  src:  url('fonts/icons.eot?mtw01m');
-  src:  url('fonts/icons.eot?mtw01m#iefix') format('embedded-opentype'),
-    url('fonts/icons.ttf?mtw01m') format('truetype'),
-    url('fonts/icons.woff?mtw01m') format('woff'),
-    url('fonts/icons.svg?mtw01m#icons') format('svg');
+  src:  url('fonts/icons.eot?rv1lxx');
+  src:  url('fonts/icons.eot?rv1lxx#iefix') format('embedded-opentype'),
+    url('fonts/icons.ttf?rv1lxx') format('truetype'),
+    url('fonts/icons.woff?rv1lxx') format('woff'),
+    url('fonts/icons.svg?rv1lxx#icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.__icon-lock:before {
+  content: "\e912";
+}
+.__icon-404:before {
+  content: "\e913";
+}
+.__icon-menu:before {
+  content: "\e90d";
+}
+.__icon-distance:before {
+  content: "\e90e";
+}
+.__icon-pay:before {
+  content: "\e90f";
+}
+.__icon-shipped:before {
+  content: "\e910";
+}
+.__icon-weight:before {
+  content: "\e911";
+}
+.__icon-right-chevron:before {
+  content: "\e90c";
+}
 .__icon-check:before {
   content: "\e90b";
 }

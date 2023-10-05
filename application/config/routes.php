@@ -5,7 +5,6 @@
 */
 return [
 
-    // MainController
     '' => [
         'controller' => 'main',
         'action' => 'index',
@@ -29,6 +28,21 @@ return [
     'account/company-create' => [
         'controller' => 'account',
         'action' => 'companyCreate',
+    ],
+
+    'cargo/add' => [
+        'controller' => 'cargo',
+        'action' => 'add',
+    ],
+
+    'cargo/list' => [
+        'controller' => 'cargo',
+        'action' => 'list',
+    ],
+
+    'cargo/info/(\d+)' => [
+        'controller' => 'cargo',
+        'action' => 'info',
     ],
 
 ];

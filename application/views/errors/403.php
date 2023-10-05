@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/HTTP-platform/public/css/style.css">
     <link rel="stylesheet" href="/HTTP-platform/public/css/iconsfont.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <title>Головна сторінка</title>
+    <title>Доступ заборонено</title>
 </head>
 
 <body>
@@ -29,12 +29,14 @@
         <main class="main">
             <section class="no-access __container">
                 <div class="no-access__block">
-                    <p class="no-access__icon __icon-404"></p>
-                    <h2 class="no-access__headline">404</h2>
-                    <p class="no-access__descript">Вибачте, але ми не змогли знайти сторінку, яку ви шукали. Це може
-                        бути через те, що сторінка була видалена, переміщена, або ви ввели невірний URL.</p>
+                    <p class="no-access__icon __icon-lock"></p>
+                    <h2 class="no-access__headline">Авторизуйтесь або створіть профіль</h2>
+                    <p class="no-access__descript">Авторизація дозволить вам користуватися всіма перевагами нашої
+                        платформи
+                        та мати можливість налаштувати персоналізовані параметри.</p>
                     <div class="no-access__btn-wrap">
-                        <a href="" class="no-access__btn">На головну</a>
+                        <a href="/HTTP-platform/account/login" class="no-access__btn">Увійти</a>
+                        <a href="/HTTP-platform/account/select" class="no-access__btn">Створити профіль</a>
                     </div>
                 </div>
             </section>
@@ -55,4 +57,5 @@
         </footer>
     </div>
 </body>
+
 </html>

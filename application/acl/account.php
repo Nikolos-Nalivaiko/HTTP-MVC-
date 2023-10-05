@@ -5,6 +5,6 @@ return [
         'login',
         'select',
         'userCreate',
-        'company-create',
+        'companyCreate',
     ]
 ];

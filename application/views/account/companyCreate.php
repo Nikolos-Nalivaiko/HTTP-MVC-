@@ -28,18 +28,8 @@
                 </div>
 
                 <div class="input-add">
-                    <input type="text" required id="user-name" name="user-name" class="input-add__input">
-                    <label for="user-name" class="input-add__label">Ваше ім’я</label>
-                </div>
-
-                <div class="input-add">
-                    <input type="text" required id="middle-name" name="middle-name" class="input-add__input">
-                    <label for="middle-name" class="input-add__label">По-батькові</label>
-                </div>
-
-                <div class="input-add">
-                    <input type="text" required id="last-name" name="last-name" class="input-add__input">
-                    <label for="last-name" class="input-add__label">Ваше прізвище</label>
+                    <input type="text" required id="company-name" name="company-name" class="input-add__input">
+                    <label for="company-name" class="input-add__label">Назва компанії</label>
                 </div>
 
                 <div class="input-add select-form">
@@ -95,16 +85,13 @@
 
 <script>
 $('.select-form__select-region').on('change', function() {
-    var selectedOption = $(this).find(":selected");
-    var selectedValue = selectedOption.val();
-
     $.ajax({
         method: 'POST',
         url: '/HTTP-platform/account/user-create',
         dataType: 'json',
         data: {
             isAjax: true,
-            region: selectedValue
+            region: $(this).val()
         },
         success: function(response) {
 
@@ -117,7 +104,8 @@ $('.select-form__select-region').on('change', function() {
 
         },
         error: function(response) {
-
+            console.log('error');
+            console.log(response);
         }
     })
 });
@@ -161,9 +149,9 @@ $('.input-file__input').on('change', function(e) {
         },
         error: function(response) {
             console.log('error');
+            console.log(response);
         }
     })
-
 });
 
 $('.action-group__button').on('click', function() {
@@ -176,14 +164,12 @@ $('.action-group__button').on('click', function() {
 
     $.ajax({
         method: 'POST',
-        url: '/HTTP-platform/account/user-create',
+        url: '/HTTP-platform/account/company-create',
         dataType: 'json',
         data: {
             formData: formDataObject
         },
         success: function(response) {
-
-            console.log(response)
 
             if (response == true) {
                 $('.popup-success').fadeIn();

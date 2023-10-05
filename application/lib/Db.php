@@ -24,17 +24,17 @@ class Db {
             }
         }
         $stmt->execute();
-        return $stmt;
+        $id = $this->db->lastInsertId();
+        return ['stmt' => $stmt, 'id' => $id];
     }
 
     public function row($sql, $params = []) {
         $result = $this->query($sql, $params);
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $result['stmt']->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function column($sql, $params = []) {
         $result = $this->query($sql, $params);
-        return $result->fetchColumn();
+        return $result['stmt']->fetchColumn();
     }
-
 }  

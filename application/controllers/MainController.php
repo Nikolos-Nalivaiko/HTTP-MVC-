@@ -9,7 +9,7 @@ class MainController extends Controller {
     public function indexAction() {
 
         $vars = [];
-
+ 
         $this->view->render('Головна сторінка', $vars);
     }
 

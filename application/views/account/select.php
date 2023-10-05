@@ -8,7 +8,7 @@
 
         <div class="select__option-wrapper">
 
-            <a href="register-company.php" class="select__option-block">
+            <a href="company-create" class="select__option-block">
                 <p class="select__icon __icon-company"></p>
                 <p class="select__theme">Підприємство</p>
             </a>

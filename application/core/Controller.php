@@ -4,6 +4,8 @@ namespace application\core;
 
 use application\core\View;
 use application\helper\Validation;
+use application\helper\Session;
+use application\helper\Cookie;
 
 abstract class Controller {
 
@@ -12,24 +14,23 @@ abstract class Controller {
     public $model;
     public $acl;
     public $validation;
+    public $session;
+    public $cookie;
 
 
     public function __construct($route)
     {
-        // Пишем данные о текущем маршруте
        $this->route = $route;
-        // Проверка на контроль доступа к странице    
-       if(!$this->checkAcl()) {
-        View::errorCode(404);
-       }
-        // Передаем маршрут классу View     
        $this->view = new View($route);
-        // Подгружаем модели контроллеров     
        $this->model = $this->loadModel($route['controller']);
        $this->validation = new Validation;
+       $this->session = new Session;
+       $this->cookie = new Cookie;
+       if(!$this->checkAcl()) {
+        View::errorCode(403);
+       }
     } 
 
-    // Автозагрузчик моделей  
     public function loadModel($name) {
         $path = 'application\models\\'.ucfirst($name);
 
@@ -39,10 +40,11 @@ abstract class Controller {
     }
 
     public function checkAcl() {
+ 
         $this->acl = require 'application/acl/'.$this->route['controller'].'.php';
         if($this->isAcl('all')) {
             return true;
-        } elseif (isset($_SESSION['auth']['id']) and $this->isAcl('authorize')) {
+        } elseif ($this->session->has('auth') == true  && $this->isAcl('authorize')) {
             return true;
         }
         return false;
