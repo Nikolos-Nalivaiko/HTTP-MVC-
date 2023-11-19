@@ -64,7 +64,7 @@ class Cargo extends Model {
     }
 
     public function getCargos() {
-        $sql = "SELECT * FROM cargos";
+        $sql = "SELECT cargos.*,users.tariff FROM cargos JOIN users ON users.id_user = cargos.id_user";
         $cargos_list = $this->db->row($sql);
         foreach($cargos_list as $cargo) {
             $cargo['load_region'] = $this->getRegion($cargo['load_region']);
@@ -73,6 +73,7 @@ class Cargo extends Model {
             $cargo['unload_city'] = $this->getCity($cargo['unload_city']);
             $cargo['id_body'] = $this->getBody($cargo['id_body']);
             $cargo['payment'] = $this->getPayment($cargo['payment']);
+            $cargo['tariff'] = $this->getTariff($cargo['tariff']);
             $cargos[] = $cargo;
         };
 
@@ -84,7 +85,7 @@ class Cargo extends Model {
             'id_cargo' => $id_cargo
         ];
 
-        $sql = "SELECT * FROM cargos WHERE id_cargo = :id_cargo";
+        $sql = "SELECT * FROM cargos JOIN users ON users.id_user = cargos.id_user WHERE id_cargo = :id_cargo";
         $data_array = $this->db->row($sql, $params);
         foreach($data_array as $cargo) {
             $cargo['load_region'] = $this->getRegion($cargo['load_region']);
@@ -93,6 +94,13 @@ class Cargo extends Model {
             $cargo['unload_city'] = $this->getCity($cargo['unload_city']);
             $cargo['id_body'] = $this->getBody($cargo['id_body']);
             $cargo['payment'] = $this->getPayment($cargo['payment']);
+            $cargo['tariff'] = $this->getTariff($cargo['tariff']);
+
+            if($cargo['status'] == 'user') {
+                $cargo['status'] = 'Фізична особа';
+            } else {
+                $cargo['status'] = 'Підприємство';
+            }
 
             if($cargo['id_cargo'] != $id_cargo) {
                 return $cargo = null;
@@ -136,5 +144,27 @@ class Cargo extends Model {
 
         $sql = "SELECT name FROM payments WHERE id_payment = :id_payment";
         return $this->db->column($sql, $params);
+    }
+
+    private function getTariff($id_tariff) {
+        $sql = "SELECT tariff_name FROM tariffs WHERE id_tariff = :id_tariff";
+
+        $params = [
+            'id_tariff' => $id_tariff
+        ];
+        
+        $tariff = $this->db->column($sql, $params);
+        return $tariff;
+    }
+
+    public function setQr($id_cargo, $qr_code) {
+        $sql = "UPDATE `cargos` SET `qr_code` = :qr_code WHERE `cargos`.`id_cargo` = :id_cargo";
+
+        $params = [
+            'id_cargo' => $id_cargo,
+            'qr_code' => $qr_code
+        ];
+
+        return $this->db->query($sql, $params);
     }
 }

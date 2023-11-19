@@ -10,12 +10,6 @@ class Account extends Model {
         $sql = "INSERT INTO `users` (`userName`, `middleName`, `lastName`, `login`, `password`, `region`, `city`, `phone`, `image`, `status`, `tariff`)
         VALUES (:user_name, :middle_name, :last_name, :login, :password, :region_id, :city_id, :phone, :image, :role, :tariff)";
 
-        if(empty($data['file'])) {
-            $file = 'default.jpg';
-        } else {
-            $file = $data['file'];
-        }
-
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
 
         $params = [
@@ -27,7 +21,7 @@ class Account extends Model {
             'region_id' => $data['region'],
             'city_id' => $data['city'],
             'phone' => $data['phone'],
-            'image' => $file,
+            'image' => 'default.jpg',
             'role' => 'user',
             'tariff' => $this->getBaseTariff()
         ];
@@ -42,12 +36,6 @@ class Account extends Model {
         $sql = "INSERT INTO `users` (`companyName`, `login`, `password`, `region`, `city`, `phone`, `image`, `status`) 
         VALUES (:company_name, :login, :password, :region_id, :city_id, :phone, :image, :role)";
 
-        if(empty($data['file'])) {
-            $file = 'default.jpg';
-        } else {
-            $file = $data['file'];
-        }
-
         $password = password_hash($data['password'], PASSWORD_DEFAULT);
 
         $params = [
@@ -57,7 +45,7 @@ class Account extends Model {
             'region_id' => $data['region'],
             'city_id' => $data['city'],
             'phone' => $data['phone'],
-            'image' => str_replace(' ', '', $file),
+            'image' => 'default.jpg',
             'role' => 'company',
         ];
 
@@ -121,4 +109,54 @@ class Account extends Model {
         $sql = "SELECT `id_tariff` FROM tariffs WHERE tariff_name = :tariff_name";
         return $this->db->column($sql, $params);
     }
+
+    public function uploadImage($file, $id_user) {
+            $file_type = $file['type'];
+            $file_tmp = $file['tmp_name'];
+
+            $file_name = $file['name'];
+
+            $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            $identifier = $this->generatePrefix($id_user);
+
+            $new_file_name = $identifier.'.'.$file_extension;
+
+
+            if ($this->checkFormat($file_type)) {
+                $root_directory = $_SERVER['DOCUMENT_ROOT'];
+                $upload_directory = $root_directory . '/HTTP-platform/public/user_uploads/';
+                $file_destination = $upload_directory . $new_file_name;
+
+                move_uploaded_file($file_tmp, $file_destination);
+                $this->setImageDB($new_file_name, $id_user);
+            } 
+    }
+
+    private function generatePrefix($id_user) {
+        $prefix = 'user-'.$id_user.'-';
+        $randomNumber = mt_rand(1, 999999); 
+        $identifier = $prefix . $randomNumber;
+        return $identifier;
+    }
+
+    private function checkFormat($type) {
+        if($type == 'image/png' || $type == 'image/jpg' || $type == 'image/jpeg' || $type == 'image/webp') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function setImageDB($image, $user_id) {
+        $sql = "UPDATE `users` SET `image` = :image WHERE `id_user` = :user_id";
+
+        $params = [
+            'user_id' => $user_id,
+            'image' => $image,
+        ];
+
+        return $this->db->query($sql, $params);
+    }
+
 }

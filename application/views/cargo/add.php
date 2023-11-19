@@ -199,20 +199,19 @@ $('.cargo-add__button').on('click', function() {
         success: function(response) {
 
             if (response.status == true) {
-                $('.popup-success__cargo').fadeIn();
+                $('.alert-success').fadeIn();
 
-                $('.popup-success__headline-cargo').text('Вантаж #' + response.id_cargo +
-                    ' успішно додано');
+                $('.alert__title').text('Вантаж додано');
 
-                $('.popup-success__descript-cargo').text(
+                $('.alert__description').text(
                     'Ваш вантаж під номером #' + response.id_cargo +
                     ' було успішно додано до списку перевезень'
                 );
 
                 $(".cargo-add__form input").val("");
             } else {
-                $('.popup-error').fadeIn();
-                $('.popup-error__headline').text(response.message);
+                $('.alert-error').fadeIn();
+                $('.alert__description').text(response.message);
             }
 
         },
@@ -220,6 +219,5 @@ $('.cargo-add__button').on('click', function() {
 
         }
     })
-
 })
 </script>

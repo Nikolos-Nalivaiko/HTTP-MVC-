@@ -14,13 +14,58 @@
     <div class="wrapper">
         <div class="navbar">
             <div class="navbar__wrapper wrapper__container">
-                <img src="/HTTP-platform/public/img/logo.svg" alt="logo" class="logo">
+                <div class="logo__wrapper--mobile">
+                    <img src="/HTTP-platform/public/img/logo.svg" alt="logo" class="logo">
+
+                    <p class="navbar--mobile__open __icon-menu"></p>
+                </div>
+
                 <div class="navbar__list">
-                    <a href="/HTTP-platform" class="navbar__link">Головна</a>
-                    <a href="" class="navbar__link">Вантажі</a>
-                    <a href="" class="navbar__link">Транспорт</a>
-                    <a href="/HTTP-platform/cargo/add" class="navbar__link">Додати вантаж</a>
-                    <a href="" class="navbar__link">Додати транспорт</a>
+                    <a href="index.php" class="navbar__link">Головна</a>
+
+                    <div class="navbar__list--cargo-on navbar__link">
+                        <p class="navbar__dropdown-sublink">Вантажі</p>
+                        <div class="navbar__dropdown dropdown-cargo">
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/cargo/list">
+                                <p class="navbar__dropdown-icon __icon-cargos"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Біржа вантажів</p>
+                                    <p class="navbar__dropdown-descript">Ваш шлях до надійних перевезень</p>
+                                </div>
+                            </a>
+
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/cargo/add">
+                                <p class="navbar__dropdown-icon __icon-cargo_add"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Додати вантаж</p>
+                                    <p class="navbar__dropdown-descript">Віддайте свої вантажі у надійні руки
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navbar__list--car-on navbar__link">
+                        <p class="navbar__dropdown-sublink">Транспорт</p>
+                        <div class="navbar__dropdown dropdown-car">
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/car/list">
+                                <p class="navbar__dropdown-icon __icon-truck_one"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Біржа транспорту</p>
+                                    <p class="navbar__dropdown-descript">Знайдіть свій ідеальний транспорт</p>
+                                </div>
+                            </a>
+
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/car/add">
+                                <p class="navbar__dropdown-icon __icon-truck_second"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Додати транспорт</p>
+                                    <p class="navbar__dropdown-descript">Кожне авто - це ключ до можливостей
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <a href="/HTTP-platform/account/login" class="navbar__button">Увійти</a>
             </div>

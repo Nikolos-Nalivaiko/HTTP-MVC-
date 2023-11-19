@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Час створення: Жов 05 2023 р., 17:31
+-- Час створення: Жов 30 2023 р., 11:58
 -- Версія сервера: 10.4.28-MariaDB
 -- Версія PHP: 8.2.4
 
@@ -43,6 +43,24 @@ INSERT INTO `bodies` (`id_body`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `brands`
+--
+
+CREATE TABLE `brands` (
+  `id_brand` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп даних таблиці `brands`
+--
+
+INSERT INTO `brands` (`id_brand`, `name`) VALUES
+(3, 'brand #1');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `cargos`
 --
 
@@ -75,6 +93,38 @@ INSERT INTO `cargos` (`id_cargo`, `name`, `description`, `load_region`, `load_ci
 -- --------------------------------------------------------
 
 --
+-- Структура таблиці `cars`
+--
+
+CREATE TABLE `cars` (
+  `id_car` int(11) NOT NULL,
+  `brand` int(11) NOT NULL,
+  `model` int(11) NOT NULL,
+  `engine` float NOT NULL,
+  `wheel_mode` varchar(255) NOT NULL,
+  `gearbox` varchar(255) NOT NULL,
+  `power` int(11) NOT NULL,
+  `mileage` int(11) NOT NULL,
+  `engine_type` varchar(255) NOT NULL,
+  `body` int(11) NOT NULL,
+  `load_volume` float NOT NULL,
+  `region` int(11) NOT NULL,
+  `city` int(11) NOT NULL,
+  `description` text DEFAULT NULL,
+  `price` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп даних таблиці `cars`
+--
+
+INSERT INTO `cars` (`id_car`, `brand`, `model`, `engine`, `wheel_mode`, `gearbox`, `power`, `mileage`, `engine_type`, `body`, `load_volume`, `region`, `city`, `description`, `price`, `id_user`) VALUES
+(107, 3, 5, 4, 'Передній', 'Механіка', 4, 4, 'Бензин', 1, 4, 2, 1, '', 4, 21);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблиці `cities`
 --
 
@@ -91,6 +141,49 @@ CREATE TABLE `cities` (
 INSERT INTO `cities` (`id_city`, `name`, `region`) VALUES
 (1, 'city #1', 2),
 (2, 'city #2', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `images`
+--
+
+CREATE TABLE `images` (
+  `id_image` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `preview` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп даних таблиці `images`
+--
+
+INSERT INTO `images` (`id_image`, `car_id`, `name`, `preview`) VALUES
+(56, 107, 'cars#975674.webp', 1),
+(57, 107, 'cars#310686.webp', 0),
+(58, 107, 'cars#629257.webp', 0),
+(59, 107, 'cars#994481.webp', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `models`
+--
+
+CREATE TABLE `models` (
+  `id_model` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `brand_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп даних таблиці `models`
+--
+
+INSERT INTO `models` (`id_model`, `name`, `brand_id`) VALUES
+(5, 'model #1', 3),
+(6, 'model #2', 3);
 
 -- --------------------------------------------------------
 
@@ -193,6 +286,12 @@ ALTER TABLE `bodies`
   ADD PRIMARY KEY (`id_body`);
 
 --
+-- Індекси таблиці `brands`
+--
+ALTER TABLE `brands`
+  ADD PRIMARY KEY (`id_brand`);
+
+--
 -- Індекси таблиці `cargos`
 --
 ALTER TABLE `cargos`
@@ -206,11 +305,37 @@ ALTER TABLE `cargos`
   ADD KEY `id_body` (`id_body`);
 
 --
+-- Індекси таблиці `cars`
+--
+ALTER TABLE `cars`
+  ADD PRIMARY KEY (`id_car`),
+  ADD KEY `region` (`region`),
+  ADD KEY `city` (`city`),
+  ADD KEY `body` (`body`),
+  ADD KEY `model` (`model`),
+  ADD KEY `brand` (`brand`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Індекси таблиці `cities`
 --
 ALTER TABLE `cities`
   ADD PRIMARY KEY (`id_city`),
   ADD KEY `region` (`region`);
+
+--
+-- Індекси таблиці `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`id_image`),
+  ADD KEY `car_id` (`car_id`);
+
+--
+-- Індекси таблиці `models`
+--
+ALTER TABLE `models`
+  ADD PRIMARY KEY (`id_model`),
+  ADD KEY `brand_id` (`brand_id`);
 
 --
 -- Індекси таблиці `payments`
@@ -250,16 +375,40 @@ ALTER TABLE `bodies`
   MODIFY `id_body` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT для таблиці `brands`
+--
+ALTER TABLE `brands`
+  MODIFY `id_brand` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT для таблиці `cargos`
 --
 ALTER TABLE `cargos`
   MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
+-- AUTO_INCREMENT для таблиці `cars`
+--
+ALTER TABLE `cars`
+  MODIFY `id_car` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+
+--
 -- AUTO_INCREMENT для таблиці `cities`
 --
 ALTER TABLE `cities`
   MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблиці `images`
+--
+ALTER TABLE `images`
+  MODIFY `id_image` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- AUTO_INCREMENT для таблиці `models`
+--
+ALTER TABLE `models`
+  MODIFY `id_model` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблиці `payments`
@@ -283,7 +432,7 @@ ALTER TABLE `tariffs`
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Обмеження зовнішнього ключа збережених таблиць
@@ -302,10 +451,33 @@ ALTER TABLE `cargos`
   ADD CONSTRAINT `cargos_ibfk_7` FOREIGN KEY (`id_body`) REFERENCES `bodies` (`id_body`);
 
 --
+-- Обмеження зовнішнього ключа таблиці `cars`
+--
+ALTER TABLE `cars`
+  ADD CONSTRAINT `cars_ibfk_1` FOREIGN KEY (`region`) REFERENCES `regions` (`id_region`),
+  ADD CONSTRAINT `cars_ibfk_2` FOREIGN KEY (`city`) REFERENCES `cities` (`id_city`),
+  ADD CONSTRAINT `cars_ibfk_3` FOREIGN KEY (`body`) REFERENCES `bodies` (`id_body`),
+  ADD CONSTRAINT `cars_ibfk_4` FOREIGN KEY (`brand`) REFERENCES `brands` (`id_brand`),
+  ADD CONSTRAINT `cars_ibfk_5` FOREIGN KEY (`model`) REFERENCES `models` (`id_model`),
+  ADD CONSTRAINT `cars_ibfk_6` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+--
 -- Обмеження зовнішнього ключа таблиці `cities`
 --
 ALTER TABLE `cities`
   ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`region`) REFERENCES `regions` (`id_region`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `images`
+--
+ALTER TABLE `images`
+  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id_car`);
+
+--
+-- Обмеження зовнішнього ключа таблиці `models`
+--
+ALTER TABLE `models`
+  ADD CONSTRAINT `models_ibfk_1` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id_brand`);
 
 --
 -- Обмеження зовнішнього ключа таблиці `users`

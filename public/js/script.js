@@ -9,7 +9,7 @@ function Slider() {
         let CountItems = slider.find(".reviews__block").length; 
 
         let item = slider.find(".reviews__block");
-        let container = slider.find(".reviews__slider");
+        let container = slider.find(".slider-container");
     
         let SlideToShow = 2;
         let SlideToScroll = 1;    
@@ -88,6 +88,121 @@ function Slider() {
   
 } 
 
+function SliderCarImages() {
+
+        let CountItems = $(".car-info__slider-item").length + 1; 
+
+        let item = $(".car-info__slider-item");
+        let container = $(".car-info__slider-continer");
+
+        let CountItemsSum = $(".car-info__slider-item").length;
+
+        let counter = 2;
+
+        let margin = 20;
+
+        let SlideToShow = 2.6;
+        let SlideToScroll = 1;    
+    
+        if(window.innerWidth <= 992) {
+            SlideToShow = 1.5;
+            counter = 1;
+            CountItems = $(".car-info__slider-item").length;
+        } 
+
+        if(window.innerWidth <= 520) {
+            SlideToShow = 1.2;
+            margin = 15;
+        } 
+        
+        let ItemWidth = (container.width() / SlideToShow) - (margin * (SlideToShow - 1)) / SlideToShow;
+    
+        let track = $(".car-info__slider-track");
+    
+        let  position = 0;
+    
+        let movePosition = SlideToScroll * ItemWidth;
+    
+        let next = $(".car-info__slider-next");
+        let prev = $(".car-info__slider-prev");
+
+        item.each(function(index, item) {
+            $(item).css ({
+                minWidth: ItemWidth,
+                marginRight: margin,
+            })
+        })
+    
+        if(item.length <= SlideToShow) {
+            next.css('display','none');
+            prev.css('display','none');
+        }
+    
+        next.click(function() {
+            moveRight();
+        });
+    
+    
+        prev.click(function() {
+            moveLeft();
+        });
+    
+        function moveRight() {
+            counter++;
+
+            ItemsLeft = CountItems - Math.round((Math.abs(position) + (SlideToShow * ItemWidth) + (SlideToScroll * margin)) / ItemWidth);
+        
+            movePosition = (SlideToScroll * ItemWidth) + (SlideToScroll * margin);
+            
+            position -= ItemsLeft > SlideToScroll ? movePosition : ( ItemsLeft * ItemWidth) + (ItemsLeft * margin);
+        
+            if(ItemsLeft == 0) {
+                position = 0;
+                counter = 2;
+                if(window.innerWidth <= 992) {
+                    counter = 1;
+                } 
+            }
+        
+            track.css({
+                transform:`translateX(${position}px)`
+            })
+
+            $('.car-info__slider-count').html('<span class="car-info__slider-count--span">'+ counter +'</span> / ' + CountItemsSum);
+        }
+        
+        function moveLeft() {
+
+            ItemsLeft = Math.round(Math.abs(position) / ItemWidth);
+        
+            movePosition = (SlideToScroll * ItemWidth) + (SlideToScroll * margin);
+            
+            position += ItemsLeft > SlideToScroll ? movePosition : ( ItemsLeft * ItemWidth) + (ItemsLeft * margin);
+
+            console.log(ItemsLeft);
+
+            if(ItemsLeft == 1) {
+                counter = 2;
+                if(window.innerWidth <= 992) {
+                    counter = 1;
+                } 
+            } 
+
+            if(ItemsLeft > 1) {
+                counter--;
+            }
+        
+            track.css({
+                transform:`translateX(${position}px)`
+            })
+
+            $('.car-info__slider-count').html('<span class="car-info__slider-count--span">'+ counter +'</span> / ' + CountItemsSum);
+        }
+
+        $('.car-info__slider-count').html('<span class="car-info__slider-count--span">'+ counter +'</span> / ' + CountItemsSum);
+  
+} 
+
 function activeLabel() {
     let inputs = $(".input-add__input");
 
@@ -119,10 +234,39 @@ function visiblePass() {
         });
     })
 
+    let icons_l = $(".login__icon-pass");
+
+    icons_l.each(function(index, icon) {
+        $(this).click(function() {
+            let pass = $(this).prev('.login__input');
+
+            if(pass.prop("type") == 'password') {
+                pass.prop("type", "text");
+            } else {
+                pass.prop("type", "password");
+            }
+        });
+    })
 }
 
 function phoneMask() {
     $('#phone').mask("+38 (999) 999-99-99")
+}
+
+function closeMessage() {
+    
+    let actions = $('.message-close');
+
+    actions.each(function(index) {
+        let action = $(this);
+
+        let message = action.closest('.message');
+        console.log(message)
+        action.click(function() {
+            message.fadeOut();
+        })
+
+    })
 }
 
 function popupRules() {
@@ -147,25 +291,14 @@ function popupRules() {
 
 function closeInfoPopup() {
 
-    let actions = $('.popup-success__close');
+    let actions = $('.alert__close');
 
     actions.each(function(index) {
         let action = $(this);
 
-        let popup = action.closest('.popup-success');
+        let popup = action.closest('.alert');
         action.click(function() {
             popup.fadeOut();
         })
-    })  
-
-    let actions_error = $('.popup-error__close');
-
-    actions_error.each(function(index) {
-        let action_error = $(this);
-
-        let popup_error = action_error.closest('.popup-error');
-        action_error.click(function() {
-            popup_error.fadeOut();
-        })
-    })  
+    })   
 }

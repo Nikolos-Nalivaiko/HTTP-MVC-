@@ -32,14 +32,18 @@ class AccountController extends Controller {
             die();
         }
 
-        $vars = [];
+        $vars = [
+            'auth' => $this->AuthInfoUser()
+        ];
 
         $this->view->render('Авторизація', $vars);
     }
 
     public function selectAction() {
 
-        $vars = [];
+        $vars = [
+            'auth' => $this->AuthInfoUser()
+        ];
 
         $this->view->render('Тип профілю', $vars);
     }
@@ -56,7 +60,11 @@ class AccountController extends Controller {
                 if($create['status'] == true) {
                     $this->session->set('auth', true);
                     $this->session->set('id_user', $create['id']);
-                    echo json_encode(true);
+                    $response = [
+                        'status' => true,
+                        'id_user' => $create['id']
+                    ];
+                    echo json_encode($response);
                 }
             } else {
                 echo json_encode($valid);
@@ -69,7 +77,8 @@ class AccountController extends Controller {
         $regions = $this->model->selectRegions(); 
 
         $vars = [
-            'regions' => $regions
+            'regions' => $regions,
+            'auth' => $this->AuthInfoUser()
         ];
 
         if(isset($_POST['isAjax']) && $_POST['isAjax']) {
@@ -80,15 +89,10 @@ class AccountController extends Controller {
             die();
         }
 
-        if(isset($_FILES['fileInput'])) {
-            $image = $_FILES['fileInput'];
-
-            if($image['type'] == 'image/jpeg' || $image['type'] == 'image/png') {
-                echo json_encode(true);
-            }
-            
-            header('Content-Type: application/json');
-            die();
+        if(isset($_FILES['file'])) { 
+            $file = $_FILES['file'];
+            $id_user = $_POST['user_id'];
+            $this->model->uploadImage($file, $id_user);
         }
 
         $this->view->render('Створення профілю', $vars);
@@ -121,7 +125,8 @@ class AccountController extends Controller {
         $regions = $this->model->selectRegions(); 
 
         $vars = [
-            'regions' => $regions
+            'regions' => $regions,
+            'auth' => $this->AuthInfoUser()
         ];
 
         if(isset($_POST['isAjax']) && $_POST['isAjax']) {
@@ -132,15 +137,10 @@ class AccountController extends Controller {
             die();
         }
 
-        if(isset($_FILES['fileInput'])) {
-            $image = $_FILES['fileInput'];
-
-            if($image['type'] == 'image/jpeg' || $image['type'] == 'image/png') {
-                echo json_encode(true);
-            }
-            
-            header('Content-Type: application/json');
-            die();
+        if(isset($_FILES['file'])) { 
+            $file = $_FILES['file'];
+            $id_user = $_POST['user_id'];
+            $this->model->uploadImage($file, $id_user);
         }
 
         $this->view->render('Створення профілю', $vars);

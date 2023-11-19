@@ -12,6 +12,8 @@ class CargoController extends Controller {
         $payments = $this->model->selectPayment();
         $bodies = $this->model->selectBody();
 
+        $currentURL = $_SERVER['REQUEST_URI'];
+
         if(isset($_POST['loadRegion'])) {
             $cities = $this->model->selectCities($_POST['loadRegion']);
 
@@ -33,16 +35,17 @@ class CargoController extends Controller {
                         'status' => true,
                         'id_cargo' => $create['id_cargo']
                     ];
-                    echo json_encode($response);
+                    $qr_code = $this->qr->generateQr($create['id_cargo'], $currentURL, 'qr_cargos');
+                    $this->model->setQr($create['id_cargo'], $qr_code);
                 }
             } else {
                 $response = [
                     'status' => false,
                     'message' => $valid
                 ];
-                echo json_encode($response);
             }
 
+            echo json_encode($response);
             header('Content-Type: application/json');
             die();
         }
@@ -52,6 +55,7 @@ class CargoController extends Controller {
             'regions' => $regions,
             'bodies' => $bodies,
             'payments' => $payments,
+            'auth' => $this->AuthInfoUser()
         ];
 
         $this->view->render('Додавання вантажу', $vars);
@@ -67,6 +71,7 @@ class CargoController extends Controller {
 
         $vars = [
             'cargos' => $cargos,
+            'auth' => $this->AuthInfoUser()
         ];
 
         $this->view->render('Список вантажів', $vars);
@@ -85,7 +90,8 @@ class CargoController extends Controller {
         };
 
         $vars = [
-            'cargo' => $cargo
+            'cargo' => $cargo,
+            'auth' => $this->AuthInfoUser()
         ];
 
         $this->view->render('Розширена інформація', $vars);

@@ -10,12 +10,10 @@ class Db {
 
     public function __construct()
     {
-        // Подключаемся к БД
        $config = require 'application/config/db.php';
        $this->db = new PDO('mysql:host='.$config['host'].';dbname='.$config['name'].'', $config['user'], $config['password']);
     }
 
-    // Функция на выполнение запроса 
     public function query($sql, $params = []) {
         $stmt = $this->db->prepare($sql);
         if(!empty($params)) {

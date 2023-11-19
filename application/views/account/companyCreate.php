@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <div class="image-download__wrapper"></div>
+            <div class="image-upload"></div>
 
             <div class="action-group">
                 <button type="submit" name="submit" onclick="event.preventDefault()"
@@ -154,6 +154,40 @@ $('.input-file__input').on('change', function(e) {
     })
 });
 
+// $('.action-group__button').on('click', function() {
+//     var formDataArray = $(".register__form").serializeArray();
+
+//     var formDataObject = {};
+//     $.each(formDataArray, function(index, field) {
+//         formDataObject[field.name] = field.value;
+//     });
+
+//     $.ajax({
+//         method: 'POST',
+//         url: '/HTTP-platform/account/company-create',
+//         dataType: 'json',
+//         data: {
+//             formData: formDataObject
+//         },
+//         success: function(response) {
+
+//             if (response == true) {
+//                 $('.popup-success').fadeIn();
+//                 $(".register__form input").val("");
+//             } else {
+//                 $('.popup-error').fadeIn();
+
+//                 $('.popup-error__headline').text(response);
+//             }
+
+//         },
+//         error: function(response) {
+
+//         }
+//     })
+
+// })
+
 $('.action-group__button').on('click', function() {
     var formDataArray = $(".register__form").serializeArray();
 
@@ -161,6 +195,9 @@ $('.action-group__button').on('click', function() {
     $.each(formDataArray, function(index, field) {
         formDataObject[field.name] = field.value;
     });
+
+    var image = new FormData();
+    image.append('file', selectedFile);
 
     $.ajax({
         method: 'POST',
@@ -170,20 +207,31 @@ $('.action-group__button').on('click', function() {
             formData: formDataObject
         },
         success: function(response) {
+            if (response.status == true) {
 
-            if (response == true) {
-                $('.popup-success').fadeIn();
+                image.append('user_id', response.id_user);
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/HTTP-platform/account/user-create',
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: image,
+                    success: function(resp) {
+                        $('.image-upload').empty();
+                    }
+                });
+
+                $('.alert').fadeIn();
+                $('.alert__title').text('Профіль створено');
                 $(".register__form input").val("");
             } else {
-                $('.popup-error').fadeIn();
-
-                $('.popup-error__headline').text(response);
+                $('.alert-error').fadeIn();
+                $('.alert__description').text(response + ', будь ласка, перевірте введені дані');
             }
-
         },
-        error: function(response) {
-
-        }
     })
 
 })

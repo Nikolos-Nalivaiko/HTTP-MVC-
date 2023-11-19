@@ -177,6 +177,35 @@ class Validation {
 
     }
 
+    public function validcar($data) {
+        $validator = $this->validation;
+
+        $rules = [
+            'brand' => ['required'],
+            'model' => ['required'],
+            'engine' => ['required'],
+            'wheel-mode' => ['required'],
+            'gearbox' => ['required'],
+            'power' => ['required'],
+            'mileage' => ['required'],
+            'engine-type' => ['required'],
+            'body' => ['required'],
+            'load-volume' => ['required'],
+            'region' => ['required'],
+            'city' => ['required'],
+            'description' => [$this->setRegex()],
+            'price' => ['required']
+        ];
+
+        $validation = $validator->make($data, $rules);
+
+        $this->setMessages($validation);
+
+        $this->setAliases($validation);
+
+        return $this->errors($validation);
+    }
+
     private function errors($validation) {
         $validation->validate();
 

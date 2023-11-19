@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/HTTP-platform/public/css/style.css">
     <link rel="stylesheet" href="/HTTP-platform/public/css/iconsfont.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <title>Головна сторінка</title>
+    <title><?= $title ?></title>
 </head>
 
 <body>
@@ -27,70 +27,38 @@
         </div>
     </div>
 
-    <div class="popup-success">
-        <div class="popup-success__body">
+    <div class="alert alert-success">
+        <div class="alert__body">
 
-            <div class="popup-success__icon-wrap">
-                <div class="popup-success__icon-inner-wrap">
-                    <p class="popup-success__icon __icon-check"></p>
+            <div class="alert__header">
+                <p class="alert__icon alert__icon __icon-check"></p>
+                <div class="alert__header-text">
+                    <p class="alert__subtitle">Статус</p>
+                    <p class="alert__title">Профіль створено</p>
                 </div>
             </div>
 
-            <p class="popup-success__headline">Профіль успішно створено</p>
-            <p class="popup-success__descript">Тепер у вас є можливість використовувати всі функції та можливості нашої
-                платформи
-            </p>
+            <p class="alert__description">Ваш профіль під номером #45215 було успішно створено</p>
 
-            <div class="popup-success__btns">
-                <a href="" class="popup-success__btn">На головну</a>
-                <a href="" class="popup-success__btn">Особистий кабінет</a>
-            </div>
-
-            <div class="popup-success__line"></div>
-            <p class="popup-success__close">Закрити</p>
+            <p class="alert__close">Закрити</p>
 
         </div>
     </div>
 
-    <!-- <div class="popup-success popup-success__cargo">
-        <div class="popup-success__body">
+    <div class="alert alert-error">
+        <div class="alert__body">
 
-            <div class="popup-success__icon-wrap">
-                <div class="popup-success__icon-inner-wrap">
-                    <p class="popup-success__icon __icon-check"></p>
+            <div class="alert__header">
+                <p class="alert__icon alert__icon--error __icon-close"></p>
+                <div class="alert__header-text">
+                    <p class="alert__subtitle">Статус</p>
+                    <p class="alert__title">Виникла помилка</p>
                 </div>
             </div>
 
-            <p class="popup-success__headline popup-success__headline-cargo"></p>
-            <p class="popup-success__descript popup-success__descript-cargo"></p>
+            <p class="alert__description">Ваш профіль під номером #45215 було успішно створено</p>
 
-            <div class="popup-success__btns">
-                <a href="/HTTP-platform/cargo/add" class="popup-success__btn">Додати новий</a>
-                <a href="" class="popup-success__btn">Переглянути</a>
-            </div>
-
-            <div class="popup-success__line"></div>
-            <p class="popup-success__close">Закрити</p>
-
-        </div>
-    </div> -->
-
-    <div class="popup-error">
-        <div class="popup-error__body">
-
-            <div class="popup-error__icon-wrap">
-                <div class="popup-error__icon-inner-wrap">
-                    <p class="popup-error__icon __icon-close"></p>
-                </div>
-            </div>
-
-            <p class="popup-error__headline"></p>
-            <p class="popup-error__descript">Будь ласка, перевірте введені дані, щоб уникнути подібних ситуацій у
-                майбутньому
-            </p>
-
-            <div class="popup-error__line"></div>
-            <p class="popup-error__close">Закрити</p>
+            <p class="alert__close">Закрити</p>
 
         </div>
     </div>
@@ -98,15 +66,80 @@
     <div class="wrapper">
         <div class="navbar">
             <div class="navbar__wrapper wrapper__container">
-                <img src="/HTTP-platform/public/img/logo.svg" alt="logo" class="logo">
+                <div class="logo__wrapper--mobile">
+                    <img src="/HTTP-platform/public/img/logo.svg" alt="logo" class="logo">
+
+                    <p class="navbar--mobile__open __icon-menu"></p>
+                </div>
+
                 <div class="navbar__list">
                     <a href="/HTTP-platform" class="navbar__link">Головна</a>
-                    <a href="/HTTP-platform/cargo/list" class="navbar__link">Вантажі</a>
-                    <a href="" class="navbar__link">Транспорт</a>
-                    <a href="/HTTP-platform/cargo/add" class="navbar__link">Додати вантаж</a>
-                    <a href="" class="navbar__link">Додати транспорт</a>
+
+                    <div class="navbar__list--cargo-on navbar__link">
+                        <p class="navbar__dropdown-sublink">Вантажі</p>
+                        <div class="navbar__dropdown dropdown-cargo">
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/cargo/list">
+                                <p class="navbar__dropdown-icon __icon-cargos"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Біржа вантажів</p>
+                                    <p class="navbar__dropdown-descript">Ваш шлях до надійних перевезень</p>
+                                </div>
+                            </a>
+
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/cargo/add">
+                                <p class="navbar__dropdown-icon __icon-cargo_add"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Додати вантаж</p>
+                                    <p class="navbar__dropdown-descript">Віддайте свої вантажі у надійні руки
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navbar__list--car-on navbar__link">
+                        <p class="navbar__dropdown-sublink">Транспорт</p>
+                        <div class="navbar__dropdown dropdown-car">
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/car/list">
+                                <p class="navbar__dropdown-icon __icon-truck_one"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Біржа транспорту</p>
+                                    <p class="navbar__dropdown-descript">Знайдіть свій ідеальний транспорт</p>
+                                </div>
+                            </a>
+
+                            <a class="navbar__dropdown-link" href="/HTTP-platform/car/add">
+                                <p class="navbar__dropdown-icon __icon-truck_second"></p>
+                                <div class="navbar__dropdown-text">
+                                    <p class="navbar__dropdown-headline">Додати транспорт</p>
+                                    <p class="navbar__dropdown-descript">Кожне авто - це ключ до можливостей
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <a href="/HTTP-platform/account/login" class="navbar__button">Увійти</a>
+                <?php 
+                if ($auth['auth'] == true) { ?>
+                <a href="" class="profile-link">
+                    <div class="profile-link__text">
+                        <p class="profile-link__name"><?= $auth['last_name']?> <?= $auth['user_name']?>
+                            <?= $auth['middle_name']?></p>
+                        <p class="profile-link__status"><?= $auth['status']?></p>
+                    </div>
+                    <?php
+                        if($auth['image'] != 'default.jpg') {
+                            echo "<img src='/HTTP-platform/public/user_uploads/".$auth['image']."' class='profile-link__image'>";
+                        } else {
+                            echo "<img src='/HTTP-platform/public/img/non-avatar.jpg' class='profile-link__image'>";
+                        }
+                    ?>
+                </a>
+                <?php
+                } else {
+                    echo "<a href='/HTTP-platform/account/login' class='navbar__button'>Увійти</a>";
+                }
+                ?>
             </div>
         </div>
 
@@ -136,6 +169,7 @@
     visiblePass();
     phoneMask();
     closeInfoPopup();
+    SliderCarImages();
     </script>
 </body>
 

@@ -4,7 +4,7 @@ namespace application\helper;
 
 class Cookie {
 
-    public function set($name, $value, $expiry = 3600, $path = '/') {
+    public function set($name, $value, $expiry = 30 * 24 * 60 * 60, $path = '/') {
         setcookie($name, $value, time() + $expiry, $path);
     }
 
@@ -14,7 +14,7 @@ class Cookie {
 
     public function delete($name, $path = '/') {
         if (isset($_COOKIE[$name])) {
-            setcookie($name, '', time() - 3600, $path);
+            setcookie($name, '', time() - 30 * 24 * 60 * 60, $path);
             unset($_COOKIE[$name]);
         }
     }

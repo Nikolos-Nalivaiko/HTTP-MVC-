@@ -61,8 +61,8 @@ $('.login__button').on('click', function() {
             if (response == true) {
                 window.location.href = "/HTTP-platform";
             } else {
-                $('.popup-error').fadeIn();
-                $('.popup-error__headline').text(response);
+                $('.alert-error').fadeIn();
+                $('.alert__description').text(response + ', будь ласка, перевірте введені дані');
             }
 
         },

@@ -45,4 +45,19 @@ return [
         'action' => 'info',
     ],
 
+    'car/add' => [
+        'controller' => 'car',
+        'action' => 'add',
+    ],
+
+    'car/list' => [
+        'controller' => 'car',
+        'action' => 'list'
+    ],
+
+    'car/info/(\d+)' => [
+        'controller' => 'car',
+        'action' => 'info',
+    ],
+
 ];

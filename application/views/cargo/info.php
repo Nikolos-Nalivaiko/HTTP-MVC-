@@ -10,8 +10,16 @@ $unload_date = date("m.d.Y", strtotime($cargo['unload_date']));
 
         <div class="cargo__headblock">
             <div class="cargo__name-wrap">
-                <p class="cargo-status">Pro</p>
-                <p class="cargo-status">Терміновий вантаж</p>
+                <?php
+                if ($cargo['tariff'] != 'basic') {
+                echo '<p class="cargo-status">Pro</p>';
+                }
+                ?>
+                <?php
+                if ($cargo['urgent'] == 'yes') {
+                echo '<p class="cargo-status">Терміновий вантаж</p>';
+                }
+                ?>
                 <p class="cargo__name"><?= $cargo['name'] ?></p>
             </div>
 
@@ -103,41 +111,43 @@ $unload_date = date("m.d.Y", strtotime($cargo['unload_date']));
             </div>
         </div>
 
-        <p class="note__headline">Примітка для водія :</p>
-        <div class="note__descript-wrap">
-            <p class="note__descript">Гумотехнічні вироби включають в себе такі продукти, як прокладки,
-                ущільнювачі, пружини, шланги, ремені, гумові діагностичні вироби, рукави, гумові протектори для
-                шин, амортизатори та багато інших. Вони використовуються у автомобільній промисловості,
-                будівництві, сільському господарстві, медицині, електроніці та багатьох інших сферах.</p>
-
-            <div class="note__rating">
-                <p class="note__rating-icon __icon-star"></p>
-                <div class="note__rating-text-wrap">
-                    <p class="note__rating-title"><span>4,6</span> / 5</p>
-                    <p class="note__rating-subtitle">Середній рейтинг користувача</p>
-                </div>
-            </div>
+        <?php
+        if ($cargo['description'] != null) { ?>
+        <div class="description">
+            <p class="description__headline">Додаткова інформація</p>
+            <p class="description__text"><?= $cargo['description'] ?></p>
         </div>
+        <?php
+        }
+        ?>
 
         <div class="user-info">
-            <a href="" class="user-info__info">
-                <img src="img/icon-user.jpg" class="user-info__avatar">
-                <div class="user-info__text-wrap">
-                    <p class="user-info__name">Михайлов Михайло Михайлович</p>
-                    <p class="user-info__status">Фізична особа</p>
+            <div class="user-info__general">
+                <a href="" class="user-info__name-wrap">
+                    <div style="background:url(/HTTP-platform/public/user_uploads/<?= $cargo['image'] ?>) no-repeat; background-size: cover;"
+                        class="user-info__avatar"></div>
+                    <div class="user-info__text-wrap">
+                        <p class="user-info__name"><?=$cargo['lastName']?> <?=$cargo['userName']?>
+                            <?=$cargo['middleName']?></p>
+                        <p class="user-info__status"><?= $cargo['status'] ?></p>
+                    </div>
+                </a>
+                <div class="user-info__line"></div>
+
+                <div class="user-info__phone-wrap">
+                    <a href="tel:<?= $cargo['phone'] ?>" class="user-info__phone"><?= $cargo['phone'] ?></a>
+                    <p class="user-info__subtitle">Контактний номер</p>
                 </div>
-            </a>
-
-            <div class="user-info__line"></div>
-
-            <div class="user-info__number-wrap">
-                <a href="tel:" class="user-info__number">+38(067)-936-41-32</a>
-                <p class="user-info__number-subtitle">Контактний номер</p>
             </div>
 
-            <div class="user-info__line"></div>
-
-            <a href="" class="user-info__btn">Детальніше</a>
+            <div class="user-info__rating">
+                <p class="user-info__rating-icon __icon-star"></p>
+                <div class="user-info__rating-text-wrap">
+                    <p class="user-info__rating-number"> <span class="user-info__rating-number--span">4,6
+                        </span>/ 5</p>
+                    <p class="user-info__rating-subtitle">Середній рейтинг користувача</p>
+                </div>
+            </div>
         </div>
 
         <div class="reviews slider-reviews">
@@ -244,6 +254,23 @@ $unload_date = date("m.d.Y", strtotime($cargo['unload_date']));
                     </div>
 
                 </div>
+            </div>
+        </div>
+
+        <div class="qr-code">
+            <div class="qr-code__text">
+                <p class="qr-code__headline">Діліться вантажем з легкістю та QR-магією</p>
+                <p class="qr-code__descript">Діліться вантажем з легкістю, створюючи QR-коди, які надають
+                    миттєвий
+                    доступ до необхідної інформації</p>
+            </div>
+
+            <div class="qr-code__qr-wrap">
+                <img src="/HTTP-platform/public/qr_cargos/<?= $cargo['qr_code'] ?>" class="qr-code__qr" alt="">
+                <div class="qr-code__left-border"></div>
+                <div class="qr-code__right-border"></div>
+                <div class="qr-code__top-border"></div>
+                <div class="qr-code__bottom-border"></div>
             </div>
         </div>
 

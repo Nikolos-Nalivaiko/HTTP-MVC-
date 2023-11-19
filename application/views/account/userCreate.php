@@ -67,21 +67,21 @@
                     <input type="text" required id="phone" name="phone" class="input-add__input">
                     <label for="phone" class="input-add__label">Ваш номер телефона</label>
                 </div>
-
-                <div class="input-file">
-                    <p class="input-file__headline">Фото профілю</p>
-
-                    <div class="input-file__wrapper-input">
-                        <input type="file" name="file" id="file" class="input-file__input">
-                        <label for="file" class="input-file__label">
-                            <p class="input-file__icon-label __icon-upload"></p> Оберіть фото
-                        </label>
-                    </div>
-
-                </div>
             </div>
 
-            <div class="image-download__wrapper"></div>
+            <div class="input-file">
+                <p class="input-file__headline">Фото транспорту</p>
+                <input type="file" name="file" id="file" class="input-file__input">
+
+                <label for="file" class="input-file__label">
+                    <div class="input-file__btn-label">
+                        <p class="input-file__btn-icon __icon-upload"></p>
+                        <p class="input-file__btn-text">Оберіть фото</p>
+                    </div>
+                </label>
+            </div>
+
+            <div class="image-upload"></div>
 
             <div class="action-group">
                 <button type="submit" name="submit" onclick="event.preventDefault()"
@@ -122,47 +122,40 @@ $('.select-form__select-region').on('change', function() {
     })
 });
 
-$('.input-file__input').on('change', function(e) {
+var selectedFile;
 
-    var file = $('.input-file__input')[0].files[0];
-    var formData = new FormData();
-    formData.append('fileInput', file);
+$('.input-file__input').on('change', function(event) {
+    var file = event.target.files[0];
 
-    $.ajax({
-        method: 'POST',
-        url: '/HTTP-platform/account/user-create',
-        dataType: 'json',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            if (response) {
-                var fileInput = e.target.files[0];
-                var reader = new FileReader();
+    async function processFiles(file) {
+        if (file && file.type.startsWith('image')) {
 
+            var reader = new FileReader();
+
+            selectedFile = file;
+
+            const imageLoaded = new Promise(resolve => {
                 reader.onload = function(e) {
-                    var imageData = e.target.result;
-
-                    $('.image-download__wrapper').empty();
-
-                    $('.image-download__wrapper').append(
-                        '<div class="image-download"> <img src = "' + imageData +
-                        '" class = "image-download__image" > <p class = "image-download__close __icon-close" ></p></div>'
-                    );
-
-                    $('.image-download__close').on('click', function() {
-                        $('.image-download').fadeOut();
-
-                        $('.input-file__input').val("");
-                    })
+                    resolve(e.target.result);
                 };
-                reader.readAsDataURL(fileInput);
-            }
-        },
-        error: function(response) {
-            console.log('error');
+            });
+
+            reader.readAsDataURL(file);
+
+            const imageUrl = await imageLoaded;
+
+            var image = `<div class="image-upload__wrapper">
+            <p class="image-upload__close __icon-close"></p>
+            <img src="${imageUrl}" alt="" class="image-upload__image">
+            </div>`;
+
+            $('.image-upload').empty();
+
+            $('.image-upload').append(image);
         }
-    })
+    }
+
+    processFiles(file);
 
 });
 
@@ -174,6 +167,9 @@ $('.action-group__button').on('click', function() {
         formDataObject[field.name] = field.value;
     });
 
+    var image = new FormData();
+    image.append('file', selectedFile);
+
     $.ajax({
         method: 'POST',
         url: '/HTTP-platform/account/user-create',
@@ -182,22 +178,31 @@ $('.action-group__button').on('click', function() {
             formData: formDataObject
         },
         success: function(response) {
+            if (response.status == true) {
 
-            console.log(response)
+                image.append('user_id', response.id_user);
 
-            if (response == true) {
-                $('.popup-success').fadeIn();
+                $.ajax({
+                    method: 'POST',
+                    url: '/HTTP-platform/account/user-create',
+                    dataType: 'text',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: image,
+                    success: function(resp) {
+                        $('.image-upload').empty();
+                    }
+                });
+
+                $('.alert-success').fadeIn();
+                $('.alert__title').text('Профіль створено');
                 $(".register__form input").val("");
             } else {
-                $('.popup-error').fadeIn();
-
-                $('.popup-error__headline').text(response);
+                $('.alert-error').fadeIn();
+                $('.alert__description').text(response + ', будь ласка, перевірте введені дані');
             }
-
         },
-        error: function(response) {
-
-        }
     })
 
 })

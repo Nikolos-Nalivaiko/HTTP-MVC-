@@ -8,6 +8,9 @@
     "require": {
         "symfony/var-dumper": "^6.3",
         "rakit/validation": "^1.4",
-        "smarty/smarty": "^4.3"
+        "smarty/smarty": "^4.3",
+        "khanamiryan/qrcode-detector-decoder": "^2.0",
+        "chillerlan/php-qrcode": "^4.3",
+        "endroid/qr-code": "^5.0"
     }
 }

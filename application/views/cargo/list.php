@@ -15,12 +15,17 @@
                 $average_price = $cargo['price'] / $cargo['distance'];
             ?>
 
-            <a href="info/<?=$cargo['id_cargo']?>" class="cargos__block">
+            <a href="/HTTP-platform/cargo/info/<?=$cargo['id_cargo']?>" class="cargos__block">
                 <p class="cargos__line"></p>
 
                 <div class="cargos__headline-block">
                     <div class="cargos__name-wrap">
-                        <p class="cargo-status">Pro</p>
+                        <?php
+                        if($cargo['tariff'] != 'basic') {
+                            echo '<p class="cargo-status">Pro</p>';
+                        }                        
+                        ?>
+                        <!-- <p class="cargo-status">Pro</p> -->
                         <?php
                         if($cargo['urgent'] == 'yes') {
                             echo '<p class="cargo-status">Терміновий вантаж</p>';
