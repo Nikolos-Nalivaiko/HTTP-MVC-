@@ -2,7 +2,7 @@
 
 return [
     'host' => 'localhost',
-    'name' => 'http',
+    'name' => 'siuj',
     'user' => 'root',
     'password' => '',
 ];

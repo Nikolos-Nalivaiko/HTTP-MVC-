@@ -8,9 +8,7 @@ class MainController extends Controller {
 
     public function indexAction() {
 
-        $vars = [
-            'auth' => $this->AuthInfoUser()
-        ];
+        $vars = [];
 
         $this->view->render('Головна сторінка', $vars);
     }

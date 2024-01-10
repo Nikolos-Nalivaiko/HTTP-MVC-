@@ -4,20 +4,16 @@ namespace application\core;
 
 class View {
 
-    // Путь к виду
     public $path;
     public $route;
-    // Шаблон
     public $layout = 'default';
 
-    // Получаем наш маршрут с Сontroller 
     public function __construct($route)
     {
         $this->route = $route;
         $this->path = $route['controller'].'/'.$route['action'];
     }
 
-    // Загружает шаблон и вид
     public function render($title, $vars = []) {
 
         if(file_exists('application/views/'.$this->path.'.php')) {
@@ -42,7 +38,6 @@ class View {
         exit;
     }
     
-    // Функция редиректа
     public static function redirect($url) {
         header('Location: '.$url);
         exit;
